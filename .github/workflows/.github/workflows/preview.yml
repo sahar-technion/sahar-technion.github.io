@@ -1,0 +1,24 @@
+name: Deploy PR previews
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # (Add your build steps here if you are using React, Vue, etc.)
+      # - run: npm ci && npm run build
+
+      - name: Deploy PR Preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: . # Or your build folder, like ./dist or ./build
+          preview-branch: main # The branch your GitHub Pages deploys from
+          umbrella-dir: pr-preview # The subfolder where previews will live
