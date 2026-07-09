@@ -3,6 +3,8 @@ title: SMILES the language of Cheminformatics
 description: SMILES are the lowest common denomenator used to explain the chemical world to computer. And like with any new journey the best way to star is to understand the language.
 date: 2026-07-09 12:00:00 +0300
 categories: [Retrosynthesis, Background]
+image:
+  path: /assets/images/SMILES_rings.png
 math: true
 ---
 ## Intro
