@@ -23,10 +23,18 @@ Parentheses always attach the branch to the atom immediately before them. Nested
 Rings are encoded by numbering the two atoms that are connected across the ring closure. For example, `C1CCCCC1` closes a six-membered saturated ring, 
 and `c1ccccc1` closes an aromatic six-membered ring.
 If a molecule has fused or bridged rings, the same atom can carry more than one ring-closure digit. That is how structures like decalin or polycyclic frameworks stay linear in notation even when the underlying graph is not.
-![SMILES Ring Closure Diagrams](/assets/images/SMILES_rings.png)
+
+<img src="/assets/images/SMILES_rings.png" alt="SMILES Ring Closure Diagrams" width="40%">
+
 ### Stereochemistry
 Tetrahedral chirality uses `@` and `@@` inside bracketed atom specifications. The exact meaning is defined relative to the order of neighbors in the SMILES string, so `N[C@@H](C)C(=O)O` encodes one enantiomer of alanine, while the opposite marker gives the other configuration.
+
+<img src="/assets/images/SMILES_stereochemistry.png" alt="SMILES Stereochemistry Diagrams" width="30%">
+
 For double bonds, geometric stereochemistry is written with slash notation: `C/C=C/C` and `C/C=C\C` distinguish the two alkene configurations. In practice, the slashes indicate the relative orientation of substituents around the C=C bond, so this is how SMILES captures E/Z information.
+
+<img src="/assets/images/SMILES_EZ.png" alt="SMILES EZ Diagrams" width="30%">
+
 ### Reaction notation
 Reaction SMILES extend the same language to chemical reactions by separating components with `>`. The usual format is `reactants`>`reagents`>`products`, with multiple species on each side separated by dots.
 Atom mapping can also be added in bracketed atoms to track which atoms correspond across reactants and products. That makes reaction SMILES useful not only for storage, but also for cheminformatics tasks like matching, transformation analysis, and machine-readable synthesis data.
