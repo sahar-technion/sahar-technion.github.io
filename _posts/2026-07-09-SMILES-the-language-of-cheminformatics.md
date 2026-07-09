@@ -26,7 +26,8 @@ Rings are encoded by numbering the two atoms that are connected across the ring 
 and `c1ccccc1` closes an aromatic six-membered ring.
 If a molecule has fused or bridged rings, the same atom can carry more than one ring-closure digit. That is how structures like decalin or polycyclic frameworks stay linear in notation even when the underlying graph is not.
 
-<img src="/assets/images/SMILES_rings.png" alt="SMILES Ring Closure Diagrams" width="40%" data-proofer-ignore>
+<img src="{{ '/assets/images/SMILES_rings.png' | relative_url }}" alt="SMILES Ring Closure Diagrams" width="40%" data-proofer-ignore>
+<!-- <img src="/assets/images/SMILES_rings.png" alt="SMILES Ring Closure Diagrams" width="40%" data-proofer-ignore> -->
 
 ### Stereochemistry
 Tetrahedral chirality uses `@` and `@@` inside bracketed atom specifications. The exact meaning is defined relative to the order of neighbors in the SMILES string, so `N[C@@H](C)C(=O)O` encodes one enantiomer of alanine, while the opposite marker gives the other configuration.
@@ -46,6 +47,14 @@ The best way to see if you actually understood a topic is by practicing, but ins
 Try to find the molecule that corresponds to the following SMILES strings. Good Luck!
 <iframe
 	src="https://saharsall-find-the-smiles.hf.space?__theme=light"
+	frameborder="0"
+	width="100%"
+	height="800px"
+	style="border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);"
+></iframe>
+
+<iframe
+	src="https://saharsall-smiles-like-me.hf.space?__theme=light"
 	frameborder="0"
 	width="100%"
 	height="800px"
