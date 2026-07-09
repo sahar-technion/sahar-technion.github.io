@@ -3,8 +3,6 @@ title: SMILES the language of Cheminformatics
 description: SMILES are the lowest common denomenator used to explain the chemical world to computer. And like with any new journey the best way to star is to understand the language.
 date: 2026-07-09 12:00:00 +0300
 categories: [Retrosynthesis, Background]
-image:
-  path: /assets/images/SMILES_rings.png
 math: true
 ---
 ## Intro
@@ -26,17 +24,17 @@ Rings are encoded by numbering the two atoms that are connected across the ring 
 and `c1ccccc1` closes an aromatic six-membered ring.
 If a molecule has fused or bridged rings, the same atom can carry more than one ring-closure digit. That is how structures like decalin or polycyclic frameworks stay linear in notation even when the underlying graph is not.
 
-<img src="{{ '/assets/images/SMILES_rings.png' | relative_url }}" alt="SMILES Ring Closure Diagrams" width="40%" data-proofer-ignore>
+<img src="{{ '/assets/images/SMILES_rings.png' | relative_url }}" alt="SMILES Ring Closure Diagrams" width="60%" data-proofer-ignore>
 <!-- <img src="/assets/images/SMILES_rings.png" alt="SMILES Ring Closure Diagrams" width="40%" data-proofer-ignore> -->
 
 ### Stereochemistry
 Tetrahedral chirality uses `@` and `@@` inside bracketed atom specifications. The exact meaning is defined relative to the order of neighbors in the SMILES string, so `N[C@@H](C)C(=O)O` encodes one enantiomer of alanine, while the opposite marker gives the other configuration.
 
-<img src="/assets/images/SMILES_stereochemistry.png" alt="SMILES Stereochemistry Diagrams" width="30%" data-proofer-ignore>
+<img src="/assets/images/SMILES_stereochemistry.png" alt="SMILES Stereochemistry Diagrams" width="40%" data-proofer-ignore>
 
 For double bonds, geometric stereochemistry is written with slash notation: `C/C=C/C` and `C/C=C\C` distinguish the two alkene configurations. In practice, the slashes indicate the relative orientation of substituents around the C=C bond, so this is how SMILES captures E/Z information.
 
-<img src="/assets/images/SMILES_EZ.png" alt="SMILES EZ Diagrams" width="30%" data-proofer-ignore>
+<img src="/assets/images/SMILES_EZ.png" alt="SMILES EZ Diagrams" width="40%" data-proofer-ignore>
 
 ### Reaction notation
 Reaction SMILES extend the same language to chemical reactions by separating components with `>`. The usual format is `reactants`>`reagents`>`products`, with multiple species on each side separated by dots.
@@ -52,6 +50,7 @@ Try to find the molecule that corresponds to the following SMILES strings. Good 
 	height="800px"
 	style="border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);"
 ></iframe>
+
 
 <iframe
 	src="https://saharsall-smiles-like-me.hf.space?__theme=light"
