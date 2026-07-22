@@ -90,21 +90,29 @@ You can try to see how the example reaction is mapped using our algorithm, try y
 	style="border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);"
 ></iframe> -->
 
+---
+
 * Mannich Reaction: O=C1CCCCC1.CNC.CO >> O=C1C(CN(C)(C))CCCC1
 <details>
   <summary>Does it work?</summary>
   
-  Nope🥲, `C_10` in the reactants should be mapped to `C_3` in the products but instead it is mapped to `C_6`. 
+  Nope🥲, $C_{10}$ in the reactants should be mapped to $C_3$ in the products but instead it is mapped to $C_6$. 
   There are two issues in this case:
   1. We are only looking at the first best mapping in MCS and since it's not the correct option we get a wrong result
   2. Even if we would consider other options, the cost of the correct mapping would be the same. We need to give better scoring to mapping that conserve symmetries.
 </details>
+
+---
+
 * Clayden Condensation: c1ccccc1C=O.CC(=O)C >> c1ccccc1C=CC(=O)C
 <details>
   <summary>Does it work?</summary>
   
   Yes! 🥳
 </details>
+
+---
+
 * Dies Alder: C=CC=COC.C=CC(=O)OC >> COC1C(C(=O)OC)CCC=C1
 <details>
   <summary>Does it work?</summary>
