@@ -3,8 +3,6 @@ title: Algorithmic Atom to Atom Mapping
 description: If we want to understand and predict reactions we first need to understand what is happening within the reactions, or in other words which atom goes where? Sounds simple? Well if you're a computer not so much.
 date: 2026-07-20 12:00:00 +0300
 categories: [Retrosynthesis, Background]
-image:
-  path: /assets/images/esterification_mapping_example.png
 math: true
 ---
 ## Intro
@@ -27,7 +25,7 @@ To do so, we want to look at our molecules as graphs (Where a node represents an
 ```
 1. Parse the SMILES:
    - create one node for each atom in the SMILES 
-   		- We will ignore Hidrogens to simplify the computational complexity but in theory we can account 
+   		- We will ignore Hydrogens to simplify the computational complexity but in theory we can account 
 		  them too by calculating valency.
    - Tag each node with element, aromatic/non‑aromatic, etc.
 2. Add bonds:
@@ -38,7 +36,7 @@ To do so, we want to look at our molecules as graphs (Where a node represents an
 * in practice RDKIT has a function for this
 ```
 
-### Mapping the Maximamal Common Scaffold (MCS)
+### Mapping the Maximal Common Scaffold (MCS)
 
 As we previously noted, in most reactions - a large part of each molecule stays exactly the same. Because of this, it would be useful to map the biggest identical piece between the products and the reactants (it doesn't have to be one big connected piece, but rather the match that contains the most atoms) since we assume that would be the case for correct mapping. To improve computation efficiency we will take too shortcuts that are actually incorrect for solving this in reality:
 * We will accept upto one change in neighbors and bonds in total (since this can very well happen in a reaction it will usually be the correct mapping).
@@ -61,7 +59,7 @@ As we previously noted, in most reactions - a large part of each molecule stays 
 
 ### Mapping the Leftovers
 
-After we mapped the main structure, we might still have atoms that either appear only in one side (products or reactants) or that had multiple changes and therefore weren't mapped in the Common Scaffold phase. Here we would like to test out all of the remaining options of mapping leftover atoms from the same type. This is viable since we assume we covered most of the atoms in the previous phase. But how do we choose the right option between all the mappings? We build a scoring function - and the combination with the lowest score (least required changes) should be the mapping that makes the most sense from a chemists perspective. Things we can penalies for:
+After we mapped the main structure, we might still have atoms that either appear only in one side (products or reactants) or that had multiple changes and therefore weren't mapped in the Common Scaffold phase. Here we would like to test out all of the remaining options of mapping leftover atoms from the same type. This is viable since we assume we covered most of the atoms in the previous phase. But how do we choose the right option between all the mappings? We build a scoring function - and the combination with the lowest score (least required changes) should be the mapping that makes the most sense from a chemists perspective. Things we can penalize for:
 * Changes in bond order
 * Changes in neighbors (which can actually count as changes in bond order)
 * Number of leftover atoms - maybe it's better to have a leftover atom than an atom that doesn't make sense because of all the changes it implies...
@@ -70,7 +68,7 @@ After we mapped the main structure, we might still have atoms that either appear
 * Changes in local environment - Is it part of a ring or a chain? Aromatic or aliphatic? In each of the rection sides
 *to simplify things we will just do the first three.
 
-#### The implementation
+#### The Implementation
 ```
 Input:
 1. For each unmapped reactant atom R and each unmapped product atom P of the same element try to match them up
@@ -83,32 +81,40 @@ The best way to see if you actually understood a topic is by practicing, but ins
 You can try to see how the example reaction is mapped using our algorithm, try your own reaction (you should start by previewing the molecules to check that your input is correct) or try any of the reactions below and try to understand why the algorithm is or isn't working for them.
 
 <iframe
-	src="https://algorithmic-atomtoatom-mapping.streamlit.app/?__theme=light"
-	frameborder="0"
-	width="100%"
-	height="800px"
-	style="border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);"
-></iframe> -->
+  src="https://algorithmic-atomtoatom-mapping.streamlit.app/?embed=true&__theme=light"
+  frameborder="0"
+  width="100%"
+  height="800px"
+  style="border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);"
+></iframe>
+
+---
 
 * Mannich Reaction: O=C1CCCCC1.CNC.CO >> O=C1C(CN(C)(C))CCCC1
 <details>
   <summary>Does it work?</summary>
   
-  Nope🥲, `C_10` in the reactants should be mapped to `C_3` in the products but instead it is mapped to `C_6`. 
+  Nope🥲, $C_{10}$ in the reactants should be mapped to $C_3$ in the products but instead it is mapped to $C_6$. 
   There are two issues in this case:
   1. We are only looking at the first best mapping in MCS and since it's not the correct option we get a wrong result
   2. Even if we would consider other options, the cost of the correct mapping would be the same. We need to give better scoring to mapping that conserve symmetries.
 </details>
+
+---
+
 * Clayden Condensation: c1ccccc1C=O.CC(=O)C >> c1ccccc1C=CC(=O)C
 <details>
   <summary>Does it work?</summary>
   
   Yes! 🥳
 </details>
+
+---
+
 * Dies Alder: C=CC=COC.C=CC(=O)OC >> COC1C(C(=O)OC)CCC=C1
 <details>
   <summary>Does it work?</summary>
   
   Nope🥲, the mapping of the ring atoms to `C=CC=COC` is off by one since the conjugation of the double bonds in the reaction causes multiple changes.
-  Because of this the best MCS isn't the right choice in this case (even if our implimentation wouldn't accept even a single difference between the products and the reactants).
+  Because of this the best MCS isn't the right choice in this case (even if our implementation wouldn't accept even a single difference between the products and the reactants).
 </details>
