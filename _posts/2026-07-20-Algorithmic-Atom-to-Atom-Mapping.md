@@ -90,6 +90,8 @@ You can try to see how the example reaction is mapped using our algorithm, try y
 
 ---
 
+---
+
 * Mannich Reaction: O=C1CCCCC1.CNC.CO >> O=C1C(CN(C)(C))CCCC1
 <details>
   <summary>Does it work?</summary>
