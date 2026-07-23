@@ -78,7 +78,7 @@ Input:
 
 ## Let's See it in action
 The best way to see if you actually understood a topic is by practicing, but instead of making it boring let's try using an interactive implementation. 
-You can try to see how the example reaction is mapped using our algorithm, try your own reaction (you should start by previewing the molecules to check that your input is correct) or try any of the reactions below and try to understand why the algorithm is or isn't working for them.
+You can try to see how the example reaction is mapped using our algorithm, try your own reaction (you should start by previewing the molecules to check that your input is correct) or try any of the reactions below and try to understand why the algorithm is or isn't working for them. I also encourage you to notice the number of steps this algorithm takes.
 
 <iframe
   src="https://algorithmic-atomtoatom-mapping.streamlit.app/?embed=true&__theme=light"
