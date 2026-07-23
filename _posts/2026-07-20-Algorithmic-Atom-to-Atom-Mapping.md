@@ -1,5 +1,5 @@
 ---
-title: Algorithmic Atom to Atom Mapping
+title: Algorithmic Atom to Atom Mapping (AAM)
 description: If we want to understand and predict reactions we first need to understand what is happening within the reactions, or in other words which atom goes where? Sounds simple? Well if you're a computer not so much.
 date: 2026-07-20 12:00:00 +0300
 categories: [Retrosynthesis, Background]
@@ -8,7 +8,7 @@ math: true
 ## Intro
 Great! We now know how to give the computer a reaction to look at, but how can the machine learn what is a likely reaction and what isn't? First we need to realize that in every reaction most of the molecule\s don't change, which is why we have named reactions and generalized reaction types, instead of just infinite different unrelated reactions. If we could get a model to learn these different "templates" it could then identify the template most fitting to the reactants and predict the products, or think of different reactants that could lead to a specific product. To generate these templates, we need to identify what part of the molecule is static and what changes, and to do that we first need to map every atom in the **products** to an atom in the reactants, so when we generate the template we do it correctly. For example:
 
-<img src="/assets/images/esterification_mapping_example.png" alt="Esterification atom mapping" width="460%" data-proofer-ignore>
+<img src="/assets/images/esterification_mapping_example.png" alt="Esterification atom mapping" width="60%" data-proofer-ignore>
 
 Since models need large datasets to train on, we don't want to manually insert each of these mappings. Instead let's try to generate an algorithm to do it for us.
 
@@ -78,7 +78,7 @@ Input:
 
 ## Let's See it in action
 The best way to see if you actually understood a topic is by practicing, but instead of making it boring let's try using an interactive implementation. 
-You can try to see how the example reaction is mapped using our algorithm, try your own reaction (you should start by previewing the molecules to check that your input is correct) or try any of the reactions below and try to understand why the algorithm is or isn't working for them.
+You can try to see how the example reaction is mapped using our algorithm, try your own reaction (you should start by previewing the molecules to check that your input is correct) or try any of the reactions below and try to understand why the algorithm is or isn't working for them. I also encourage you to notice the number of steps this algorithm takes.
 
 <iframe
   src="https://algorithmic-atomtoatom-mapping.streamlit.app/?embed=true&__theme=light"
@@ -120,3 +120,11 @@ You can try to see how the example reaction is mapped using our algorithm, try y
   Nope🥲, the mapping of the ring atoms to `C=CC=COC` is off by one since the conjugation of the double bonds in the reaction causes multiple changes.
   Because of this the best MCS isn't the right choice in this case (even if our implementation wouldn't accept even a single difference between the products and the reactants).
 </details>
+
+## Conclusions
+We learned that algorithmic atom‑to‑atom mapping can get us a long way (even with our very simplified version) but they are definetly not perfect (as we also experienced here). And for many years this was definetly the approach - with mappers like ChemAxon, Indigo, RDTool and NameRXN. Some of them lean into accuracy more deeply with highly elaborate rules and mechanisms - like RDTool, While others rely more on heuristics which reduce accuracy but improve computation efficiency (which is very important when running a mapping on a few million reactions). But in the era of AI, none of these options live up to the rankings of deep learning based models, and that is precisely why in the next post we will tackle the same task, but this time with a Deep Learning Model.
+Just so we have a better grasp of the different performances in regards to time and accuracy, here are two graphs from a [Atom-to-Atom Mapping Benchmark Study](https://chemrxiv.org/doi/pdf/10.26434/chemrxiv.13012679.v1) done in 2020. 
+I've highlighted RXNMapper which is the AI model for easy comparison
+<img src="/assets/images/algorithmic_AAM_time_graph.png" alt="Comparing time per reaction mapping between different algorithmic AAM and RXNMapper " width="100%" data-proofer-ignore>
+<img src="/assets/images/algorithmic_AAM_accuracy_graph.png" Comparing accuracy of reaction mapping between different algorithmic AAM and RXNMapper" width="100%" data-proofer-ignore>
+
