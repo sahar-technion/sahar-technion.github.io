@@ -118,3 +118,11 @@ You can try to see how the example reaction is mapped using our algorithm, try y
   Nope🥲, the mapping of the ring atoms to `C=CC=COC` is off by one since the conjugation of the double bonds in the reaction causes multiple changes.
   Because of this the best MCS isn't the right choice in this case (even if our implementation wouldn't accept even a single difference between the products and the reactants).
 </details>
+
+## Conclusions
+We learned that algorithmic atom‑to‑atom mapping can get us a long way (even with our very simplified version) but they are definetly not perfect (as we also experienced here). And for many years this was definetly the approach - with mappers like ChemAxon, Indigo, RDTool and NameRXN. Some of them lean into accuracy more deeply with highly elaborate rules and mechanisms - like RDTool, While others rely more on heuristics which reduce accuracy but improve computation efficiency (which is very important when running a mapping on a few million reactions). But in the era of AI, none of these options live up to the rankings of deep learning based models, and that is precisely why in the next post we will tackle the same task, but this time with a Deep Learning Model.
+Just so we have a better grasp of the different performances in regards to time and accuracy, here are two graphs from a [Atom-to-Atom Mapping Benchmark Study](https://chemrxiv.org/doi/pdf/10.26434/chemrxiv.13012679.v1) done in 2020. 
+I've highlighted RXNMapper which is the AI model for easy comparison
+<img src="/assets/images/algorithmic_AAM_time_graph.png" alt="Comparing time per reaction mapping between different algorithmic AAM and RXNMapper " width="100%" data-proofer-ignore>
+<img src="/assets/images/algorithmic_AAM_accuracy_graph.png" Comparing accuracy of reaction mapping between different algorithmic AAM and RXNMapper" width="100%" data-proofer-ignore>
+
