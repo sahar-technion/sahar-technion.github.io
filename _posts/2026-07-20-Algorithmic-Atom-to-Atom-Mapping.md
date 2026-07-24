@@ -31,8 +31,8 @@ To do so, we want to look at our molecules as graphs (Where a node represents an
    - Tag each node with element, aromatic/non‑aromatic, etc.
 2. Add bonds:
    - For each atom in SMILES connect it (with an edge) to the atom before it ignoring brackets.
-   - For numerical indices add an edge between nodes with the same index (for rings)
    - Tag each edge with bond order (single, double, aromatic…).
+   - For numerical indices add an edge between nodes with the same index (for rings)
 
 * in practice RDKIT has a function for this
 ```
@@ -42,7 +42,7 @@ To do so, we want to look at our molecules as graphs (Where a node represents an
 As we previously noted, in most reactions - a large part of each molecule stays exactly the same. Because of this, it would be useful to map the biggest identical piece between the products and the reactants (it doesn't have to be one big connected piece, but rather the match that contains the most atoms) since we assume that would be the case for correct mapping. To improve computation efficiency we will take two shortcuts that are actually incorrect for solving this in reality:
 * We will accept upto one change in neighbors and bonds in total (since this can very well happen in a reaction it will usually be the correct mapping).
 * Once we find **a** biggest piece (a piece with the highest number of nodes) we won't look for a better assignment - this will reduce many "branches" of checks down the road.
-  - In practice what this means, is that if we already managed to match `n` nodes out of `m` and now we are looking at a new matching option where we managed to match `k` nodes but we only have `k-n` nodes left to pottentaially match - then we will stop looking at this option, since we deffinetally won't be able to get more than `n` nodes matched with it.
+  - In practice what this means, is that if we already managed to match `n` nodes out of `m` and now we are looking at a new matching option, where we managed to match `k` nodes but we only have `k-n` nodes left to pottentaially match - then we will stop looking at this option, since we deffinetely won't be able to get more than `n` nodes matched with it.
 
 #### The Implementation
 ```
