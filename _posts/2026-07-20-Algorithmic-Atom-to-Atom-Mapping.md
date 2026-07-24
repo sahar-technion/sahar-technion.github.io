@@ -17,7 +17,8 @@ Since models need large datasets to train on, we don't want to manually insert e
 
 Unlike SMILES that are easy to read and generate but have less of a spacial meaning, when we try to look at whats happening in specific given reactions - it's better to look at structural features. 
 To do so, we want to look at our molecules as graphs (Where a node represents an atom and an edge represents a bond) and see how these graphs change between the reactants and the products. 
-*Also, since we are looking at a given reaction we don't need to worry about graph->molecule feasabilty since we aren't inventing anything new, so we don't care if our "language" contains impossible molecules as we do in other tasks.
+
+*Also, a graph can correspond to an impossible molecule, but since we aren't trying to "invent" anything new - we don't care about this (graph->molecule feasabilty).
 
 <img src="/assets/images/SMILES_to_graph.png" alt="Step by step conversion of SMILES format to graph" width="60%" data-proofer-ignore>
 
@@ -29,31 +30,33 @@ To do so, we want to look at our molecules as graphs (Where a node represents an
 		  them too by calculating valency.
    - Tag each node with element, aromatic/non‑aromatic, etc.
 2. Add bonds:
-   - For each each atom in SMILES connect it (with an edge) to the atom before it ignoring brackets.
-   - For numerical indices add an edge between nodes with the same index (for rings)
+   - For each atom in SMILES connect it (with an edge) to the atom before it ignoring brackets.
    - Tag each edge with bond order (single, double, aromatic…).
+   - For numerical indices add an edge between nodes with the same index (for rings)
 
 * in practice RDKIT has a function for this
 ```
 
 ### Mapping the Maximal Common Scaffold (MCS)
 
-As we previously noted, in most reactions - a large part of each molecule stays exactly the same. Because of this, it would be useful to map the biggest identical piece between the products and the reactants (it doesn't have to be one big connected piece, but rather the match that contains the most atoms) since we assume that would be the case for correct mapping. To improve computation efficiency we will take too shortcuts that are actually incorrect for solving this in reality:
+As we previously noted, in most reactions - a large part of each molecule stays exactly the same. Because of this, it would be useful to map the biggest identical piece between the products and the reactants (it doesn't have to be one big connected piece, but rather the match that contains the most atoms) since we assume that would be the case for correct mapping. To improve computation efficiency we will take two shortcuts that are actually incorrect for solving this in reality:
 * We will accept upto one change in neighbors and bonds in total (since this can very well happen in a reaction it will usually be the correct mapping).
-* Once we find a biggest piece (a piece with the highest number of nodes) we won't look for a better assignment - this will reduce many "branches" of checks down the road.
+* Once we find **a** biggest piece (a piece with the highest number of nodes) we won't look for a better assignment - this will reduce many "branches" of checks down the road.
+  - In practice what this means, is that if we already managed to match `n` nodes out of `m` and now we are looking at a new matching option, where we managed to match `k` nodes but we only have `k-n` nodes left to pottentaially match - then we will stop looking at this option, since we deffinetely won't be able to get more than `n` nodes matched with it.
 
 #### The Implementation
 ```
-1. Generate candidate matches:
-   - Start from pairs of atoms with same element (C-C, O-O, etc.).
-   - Extend matches by adding neighbouring atoms if
-     bond types and neighbors still match (upto one difference).
-2. Keep only consistent matches:
-   - If two candidates contradict (e.g., same atom matched to
-     two different atoms), discard the smaller/less consistent one.
-3. Choose the largest consistent match:
-   - Count atoms in each candidate.
-   - Keep the candidate with the most atoms as the common scaffold.
+1.  Start from pairs of atoms with same element (C-C, O-O, etc.).
+2.  Make sure there isn't more than one change between the products or the reactants.
+3.  If you managed, lock in (Add the new match to saved matches) 
+    - If you've finished matching the last row in the reactants, undo the last to matches and jump to step 6 
+      with the previous reactant atom and a product atom you haven't tried yet.
+    - Otherwise, return to step 1 with the next reactant atom.
+5.  If you didn't manage - skip matching this reactant atom and go to the next row and to step 6.
+6.  If "even if you match all the remaining unmatched atoms, 
+    the result will contain at most the same amount of atoms as the biggest scaffold seen so far" 
+    undo the previous matching and go back to step 1 (with the previous reactant atom).
+    Otherwise, return to step 1 for current reactant atom.
 ```
 
 
@@ -66,19 +69,26 @@ After we mapped the main structure, we might still have atoms that either appear
 * Changes in stereochemistry
 * Change in charges
 * Changes in local environment - Is it part of a ring or a chain? Aromatic or aliphatic? In each of the rection sides
+
 *to simplify things we will just do the first three.
 
 #### The Implementation
 ```
 Input:
 1. For each unmapped reactant atom R and each unmapped product atom P of the same element try to match them up
-2. Compute a total cost for the tested mapping (based on the rules we chose)
+2. Once you managed to create a decision for the mapping of all the nodes (even if the decision is to not map them), 
+   Compute a total cost for the tested mapping (based on the rules we chose)
 3. Save the lowest cost so far and the mapping that correspnds to it
 ```
 
 ## Let's See it in action
 The best way to see if you actually understood a topic is by practicing, but instead of making it boring let's try using an interactive implementation. 
-You can try to see how the example reaction is mapped using our algorithm, try your own reaction (you should start by previewing the molecules to check that your input is correct) or try any of the reactions below and try to understand why the algorithm is or isn't working for them. I also encourage you to notice the number of steps this algorithm takes.
+Here are few options to try out:
+* See how the example reaction is mapped using our algorithm.
+* Choose your own reaction (you should start by previewing the molecules to check that your input is correct)
+* Copy any of the reactions below and try to understand why the algorithm is or isn't working for them. 
+
+*I also encourage you to notice the number of steps this algorithm takes.
 
 <iframe
   src="https://algorithmic-atomtoatom-mapping.streamlit.app/?embed=true&__theme=light"
