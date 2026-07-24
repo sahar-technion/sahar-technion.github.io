@@ -18,7 +18,7 @@ Since models need large datasets to train on, we don't want to manually insert e
 Unlike SMILES that are easy to read and generate but have less of a spacial meaning, when we try to look at whats happening in specific given reactions - it's better to look at structural features. 
 To do so, we want to look at our molecules as graphs (Where a node represents an atom and an edge represents a bond) and see how these graphs change between the reactants and the products. 
 
-*Also, since we are looking at a given reaction we don't need to worry about graph->molecule feasabilty since we aren't inventing anything new, so we don't care if our "language" contains impossible molecules as we do in other tasks.
+*Also, a graph can be an impossible molecule, but since we aren't trying to "invent" anything new - we don't care about this (graph->molecule feasabilty).
 
 <img src="/assets/images/SMILES_to_graph.png" alt="Step by step conversion of SMILES format to graph" width="60%" data-proofer-ignore>
 
