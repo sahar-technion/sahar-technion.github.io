@@ -1,5 +1,5 @@
 ---
-title: Algorithmic Atom to Atom Mapping (AAM)
+title: Algorithmic Atom to Atom Mapping
 description: If we want to understand and predict reactions we first need to understand what is happening within the reactions, or in other words which atom goes where? Sounds simple? Well if you're a computer not so much.
 date: 2026-07-20 12:00:00 +0300
 categories: [Retrosynthesis, Background]
